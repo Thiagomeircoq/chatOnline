@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        
+        .container {
+            color: #fff;
+            background-color: blue;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .text-success {
+            color: green;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Valor da Ação JS3</h1>
+        
+    </div>
+        <h2 id="valor">$</h2>
+
+        <script src="https://cdn.socket.io/4.4.0/socket.io.js"></script>
+
+        <script>
+            let socket = io('ws://localhost:3000');
+            let elemento = document.querySelector('#valor');
+
+            socket.on('cotação', valor => {
+                let valorAntigo = parseFloat(elemento.innerText.replace('R$', ''));
+
+                if (valor > valorAntigo) {
+                    elemento.classList.add('text-success');
+                    elemento.classList.remove('text-danger');
+                } else {
+                    elemento.classList.add('text-danger');
+                    elemento.classList.remove('text-success');
+                }
+
+                elemento.innerText = 'R$' + valor;
+            });
+        </script>
+</body>
+</html>
